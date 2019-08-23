@@ -8,7 +8,7 @@
  * Author URI: https://github.com/neogenesis
  */
 
-	
+    
 add_shortcode( 'media', 'neo_media_shortcode' );
 function neo_media_shortcode( $atts ) {
     $attr = shortcode_atts( array(
@@ -19,20 +19,20 @@ function neo_media_shortcode( $atts ) {
 
     $plugin_url = plugin_dir_url( __FILE__ );
     if( intval( $attr['id'] ) > 0 ) {
-        $img_src = wp_get_attachment_image_src( $attr['id'], $attr['size'] );
+        $img_attr = wp_get_attachment_image_src( $attr['id'], $attr['size'] );
     }
-    if( empty( $img_src ) ) {
-        $img_src = $plugin_url . 'img/robot.png';
+    if( empty( $img_attr ) ) {
+        $img_attr = [ $plugin_url . 'img/robot.png', 256, 256 ] ;
     }
     ob_start();
     if( $attr['add_link'] == true ) {
-        echo '<a href="' . $img_src . '">';
+        echo '<a href="' . $img_attr[0] . '">';
     }
-	?>
-    <img src="<?php echo $img_src ?>" />
+    ?>
+    <img src="<?php echo $img_attr[0] ?>" width="<?php echo $img_attr[1]; ?>" height="<?php echo $img_attr[2]; ?>" />
     <?php
     if( $attr['add_link'] == true ) {
         echo '</a>';
     }
-	return ob_get_clean();
+    return ob_get_clean();
 }
